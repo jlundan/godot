@@ -1937,6 +1937,30 @@ Error EditorExportPlatformAndroid::run(const Ref<EditorExportPreset> &p_preset, 
 			OS::get_singleton()->execute(adb, args, true, nullptr, &output, &rv, true);
 			print_verbose(output);
 
+			String reverse_ports = EditorSettings::get_singleton()->get("export/android/reverse_ports");
+			char * r_ports = new char [reverse_ports.length() + 1];
+			wcstombs(r_ports, reverse_ports.c_str(), reverse_ports.length());
+
+			char *port;
+			port = strtok(r_ports, ",");
+
+			while (port != NULL) {
+				args.clear();
+				args.push_back("-s");
+				args.push_back(devices[p_device].id);
+				args.push_back("reverse");
+
+				args.push_back(String(port));
+				args.push_back(String(port));
+
+				output.clear();
+				OS::get_singleton()->execute(adb, args, true, nullptr, &output, &rv, true);
+				print_verbose(output);
+				print_line("Configured reverse ports result: " + itos(rv));
+
+				port = strtok(NULL, ",");
+			}
+
 			if (p_debug_flags & DEBUG_FLAG_REMOTE_DEBUG) {
 				int dbg_port = EditorSettings::get_singleton()->get("network/debug/remote_port");
 				args.clear();

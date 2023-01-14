@@ -656,6 +656,9 @@ void EditorSettings::_load_defaults(Ref<ConfigFile> p_extra_config) {
 	_initial_set("network/debug/remote_port", 6007);
 	hints["network/debug/remote_port"] = PropertyInfo(Variant::INT, "network/debug/remote_port", PROPERTY_HINT_RANGE, "1,65535,1");
 
+	_initial_set("export/android/reverse_ports", "");
+	hints["export/android/reverse_ports"] = PropertyInfo(Variant::STRING, "export/android/reverse_ports", PROPERTY_HINT_NONE, "");
+
 	// SSL
 	_initial_set("network/ssl/editor_ssl_certificates", _SYSTEM_CERTS_PATH);
 	hints["network/ssl/editor_ssl_certificates"] = PropertyInfo(Variant::STRING, "network/ssl/editor_ssl_certificates", PROPERTY_HINT_GLOBAL_FILE, "*.crt,*.pem", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_RESTART_IF_CHANGED);
